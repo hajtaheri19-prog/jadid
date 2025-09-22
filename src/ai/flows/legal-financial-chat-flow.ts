@@ -20,7 +20,7 @@ const LegalFinancialChatInputSchema = z.object({
 type LegalFinancialChatInput = z.infer<typeof LegalFinancialChatInputSchema>;
 
 
-export async function legalFinancialChat(input: LegalFinancialChatInput): Promise<ReadableStream<string>> {
+export async function legalFinancialChat(input: LegalFinancialChatInput): Promise<ReadableStream<Uint8Array>> {
     const systemPrompt = `You are an expert AI assistant specializing in Iranian legal and financial matters.
 Your name is "Tabdila Bot". You must answer in Persian.
 Provide clear, accurate, and helpful information regarding laws, regulations, financial calculations, and legal procedures in Iran.
@@ -39,7 +39,7 @@ You are a helpful assistant, not a replacement for a professional lawyer or fina
     const { stream } = ai.generateStream(finalPrompt);
     
     const encoder = new TextEncoder();
-    const readableStream = new ReadableStream({
+    const readableStream = new ReadableStream<Uint8Array>({
       async start(controller) {
         for await (const chunk of stream) {
           const text = chunk.text;
