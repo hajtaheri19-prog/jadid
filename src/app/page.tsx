@@ -19,7 +19,6 @@ import BinaryConverter from '@/components/features/binary-converter';
 import DistanceCalculator from '@/components/features/distance-calculator';
 import VehiclePlateIdentifier from '@/components/features/vehicle-plate-identifier';
 import TextAnalyzer from '@/components/features/text-analyzer';
-import ImageOptimizer from '@/components/features/image-optimizer';
 import TextSummarizer from '@/components/features/text-summarizer';
 import RialTomanConverter from '@/components/features/rial-toman-converter';
 import SavingsCalculator from '@/components/features/savings-calculator';
@@ -27,12 +26,10 @@ import NationalIdValidator from '@/components/features/national-id-validator';
 import WorkoutTimer from '@/components/features/workout-timer';
 import ShebaConverter from '@/components/features/sheba-converter';
 import QrCodeGenerator from '@/components/features/qr-code-generator';
-import QrCodeReader from '@/components/features/qr-code-reader';
 import TicTacToe from '@/components/features/tic-tac-toe';
 import RockPaperScissors from '@/components/features/rock-paper-scissors';
 import Hangman from '@/components/features/hangman';
 import LegalFinancialChatbot from '@/components/features/legal-financial-chatbot';
-import SignatureGenerator from '@/components/features/signature-generator';
 import MemoryGame from '@/components/features/memory-game';
 import GuessTheNumber from '@/components/features/guess-the-number';
 import ConnectFour from '@/components/features/connect-four';
@@ -51,6 +48,14 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import PWAInstallPrompt from '@/components/layout/pwa-install-prompt';
 import LinkShortener from '@/components/features/link-shortener';
+import dynamic from 'next/dynamic';
+
+// Dynamic imports for browser-only components to avoid SSR "self/window" usage
+const QrCodeReader = dynamic(() => import('@/components/features/qr-code-reader'), { ssr: false });
+const ImageOptimizer = dynamic(() => import('@/components/features/image-optimizer'), { ssr: false });
+const SignatureGenerator = dynamic(() => import('@/components/features/signature-generator'), { ssr: false });
+const MemoryGame = dynamic(() => import('@/components/features/memory-game'), { ssr: false });
+const SimonSays = dynamic(() => import('@/components/features/simon-says'), { ssr: false });
 
 const OthelloIcon = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-8 w-8">
