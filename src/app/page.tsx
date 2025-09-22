@@ -1,4 +1,8 @@
 import React from 'react';
+// Avoid static prerender to prevent evaluating browser-only code on the server
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import Header from '@/components/layout/header';
 import UnitConverter from '@/components/features/unit-converter';
 import CurrencyConverter from '@/components/features/currency-converter';
@@ -30,10 +34,8 @@ import TicTacToe from '@/components/features/tic-tac-toe';
 import RockPaperScissors from '@/components/features/rock-paper-scissors';
 import Hangman from '@/components/features/hangman';
 import LegalFinancialChatbot from '@/components/features/legal-financial-chatbot';
-import MemoryGame from '@/components/features/memory-game';
 import GuessTheNumber from '@/components/features/guess-the-number';
 import ConnectFour from '@/components/features/connect-four';
-import SimonSays from '@/components/features/simon-says';
 import OthelloGame from '@/components/features/othello-game';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ScrollToTop from '@/components/layout/scroll-to-top';
@@ -48,14 +50,11 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import PWAInstallPrompt from '@/components/layout/pwa-install-prompt';
 import LinkShortener from '@/components/features/link-shortener';
-import dynamic from 'next/dynamic';
-
-// Dynamic imports for browser-only components to avoid SSR "self/window" usage
-const QrCodeReader = dynamic(() => import('@/components/features/qr-code-reader'), { ssr: false });
-const ImageOptimizer = dynamic(() => import('@/components/features/image-optimizer'), { ssr: false });
-const SignatureGenerator = dynamic(() => import('@/components/features/signature-generator'), { ssr: false });
-const MemoryGame = dynamic(() => import('@/components/features/memory-game'), { ssr: false });
-const SimonSays = dynamic(() => import('@/components/features/simon-says'), { ssr: false });
+import QrCodeReaderClient from '@/components/client/qr-code-reader-client';
+import ImageOptimizerClient from '@/components/client/image-optimizer-client';
+import SignatureGeneratorClient from '@/components/client/signature-generator-client';
+import MemoryGameClient from '@/components/client/memory-game-client';
+import SimonSaysClient from '@/components/client/simon-says-client';
 
 const OthelloIcon = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-8 w-8">
@@ -151,10 +150,10 @@ const toolCategories = [
       { id: 'tic-tac-toe', title: 'بازی دوز', icon: <Puzzle className="h-8 w-8 text-red-400" />, component: <TicTacToe />, mode: 'دو حالته' },
       { id: 'rock-paper-scissors', title: 'سنگ کاغذ قیچی', icon: <Hand className="h-8 w-8 text-yellow-400" />, component: <RockPaperScissors />, mode: 'دو حالته' },
       { id: 'hangman', title: 'حدس کلمه', icon: <Brain className="h-8 w-8 text-green-400" />, component: <Hangman />, mode: 'مقابل سیستم' },
-      { id: 'memory-game', title: 'بازی حافظه', icon: <MemoryStick className="h-8 w-8 text-sky-400" />, component: <MemoryGame />, mode: 'تک نفره' },
+      { id: 'memory-game', title: 'بازی حافظه', icon: <MemoryStick className="h-8 w-8 text-sky-400" />, component: <MemoryGameClient />, mode: 'تک نفره' },
       { id: 'guess-the-number', title: 'حدس عدد', icon: <Hash className="h-8 w-8 text-fuchsia-400" />, component: <GuessTheNumber />, mode: 'مقابل سیستم' },
       { id: 'connect-four', title: 'چهار در یک ردیف', icon: <AlignVerticalDistributeCenter className="h-8 w-8 text-blue-500" />, component: <ConnectFour />, mode: 'دو نفره' },
-      { id: 'simon-says', title: 'بازی سایمون', icon: <BrainCircuit className="h-8 w-8 text-purple-500" />, component: <SimonSays />, mode: 'تک نفره' },
+      { id: 'simon-says', title: 'بازی سایمون', icon: <BrainCircuit className="h-8 w-8 text-purple-500" />, component: <SimonSaysClient />, mode: 'تک نفره' },
       { id: 'othello-game', title: 'بازی اتللو', icon: <OthelloIcon />, component: <OthelloGame />, mode: 'دو نفره' },
       { id: 'minesweeper-3d', title: 'Minesweeper Extreme 3D', icon: <Bomb className="h-8 w-8 text-gray-400" />, isWip: true },
       { id: 'archaeology-game', title: 'بازی زیرخاکی', icon: <Ghost className="h-8 w-8 text-yellow-400" />, isWip: true },
@@ -185,11 +184,11 @@ const toolCategories = [
       { id: 'random-number', title: 'عدد تصادفی', icon: <Dices className="h-8 w-8 text-orange-400" />, component: <RandomNumberGenerator /> },
       { id: 'password-generator', title: 'تولید رمز عبور', icon: <KeyRound className="h-8 w-8 text-violet-400" />, component: <PasswordGenerator /> },
       { id: 'qr-code-generator', title: 'QR Code ساز', icon: <QrCode className="h-8 w-8 text-emerald-400" />, component: <QrCodeGenerator /> },
-      { id: 'qr-code-reader', title: 'QR Code خوان', icon: <ScanLine className="h-8 w-8 text-blue-400" />, component: <QrCodeReader /> },
-      { id: 'image-optimizer', title: 'کاهش حجم تصویر', icon: <Image className="h-8 w-8 text-orange-400" />, component: <ImageOptimizer /> },
+      { id: 'qr-code-reader', title: 'QR Code خوان', icon: <ScanLine className="h-8 w-8 text-blue-400" />, component: <QrCodeReaderClient /> },
+      { id: 'image-optimizer', title: 'کاهش حجم تصویر', icon: <Image className="h-8 w-8 text-orange-400" />, component: <ImageOptimizerClient /> },
       { id: 'text-analyzer', title: 'تحلیلگر متن', icon: <FileText className="h-8 w-8 text-yellow-400" />, component: <TextAnalyzer /> },
       { id: 'distance-calculator', title: 'محاسبه مسافت', icon: <Map className="h-8 w-8 text-fuchsia-400" />, component: <DistanceCalculator /> },
-      { id: 'signature-generator', title: 'تولید امضا دیجیتال', icon: <PenLine className="h-8 w-8 text-slate-400" />, component: <SignatureGenerator /> },
+      { id: 'signature-generator', title: 'تولید امضا دیجیتال', icon: <PenLine className="h-8 w-8 text-slate-400" />, component: <SignatureGeneratorClient /> },
       { id: 'ip-detector', title: 'تشخیص IP', icon: <LocateFixed className="h-8 w-8 text-sky-400" />, isWip: true },
       { id: 'post-tracker', title: 'پیگیری مرسوله پستی', icon: <Mailbox className="h-8 w-8 text-rose-400" />, isExternal: true, href: 'https://tracking.post.ir/'},
     ]
