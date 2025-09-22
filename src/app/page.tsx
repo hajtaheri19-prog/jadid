@@ -39,11 +39,12 @@ import ConnectFour from '@/components/features/connect-four';
 import OthelloGame from '@/components/features/othello-game';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ScrollToTop from '@/components/layout/scroll-to-top';
+import FooterLegal from '@/components/layout/footer-legal';
 import { fetchPrices } from '@/ai/flows/fetch-prices-flow';
 import type { LivePrice, PriceData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Sword, Brain, ArrowLeft, BrainCircuit, BookText, FlaskConical, Scale, Landmark, CalendarDays, Repeat, SpellCheck, Binary, CalendarClock, Gift, Clock, Hourglass, Wallet, Bitcoin, Banknote, PiggyBank, TrendingUp, Percent, HeartPulse, Dumbbell, User, ShieldCheck, Fingerprint, RectangleEllipsis, Dices, KeyRound, QrCode, ScanLine, LocateFixed, Image, Monitor, FileText, Map, Info, HeartHandshake, Globe, Wrench, ArrowUp, ArrowDown, RefreshCw, Timer, CandlestickChart, ExternalLink, Construction, Calculator, Gamepad2, Puzzle, Bot, Mailbox, ReceiptText, CalendarCheck, PenLine, MemoryStick, Hash, Link as LinkIcon, Users, Ghost, CircleDot, Castle, Rocket, Target, Ship, ArrowDownRight, Square, Search, Shield, MessageSquareHeart, Bomb, Crown, Blocks, Rows3, AlignVerticalDistributeCenter, Hand } from 'lucide-react';
+import { Sword, Brain, ArrowLeft, BrainCircuit, BookText, FlaskConical, Scale, Landmark, CalendarDays, Repeat, SpellCheck, Binary, CalendarClock, Gift, Clock, Hourglass, Wallet, Bitcoin, Banknote, PiggyBank, TrendingUp, Percent, HeartPulse, Dumbbell, User, ShieldCheck, Fingerprint, RectangleEllipsis, Dices, KeyRound, QrCode, ScanLine, LocateFixed, Image, Monitor, FileText, Map, Info, HeartHandshake, Globe, Wrench, ArrowUp, ArrowDown, RefreshCw, Timer, CandlestickChart, ExternalLink, Construction, Calculator, Gamepad2, Puzzle, Bot, Mailbox, ReceiptText, CalendarCheck, PenLine, MemoryStick, Hash, Link as LinkIcon, Users, Ghost, CircleDot, Castle, Rocket, Target, Ship, ArrowDownRight, Square, Search, Shield, MessageSquareHeart, Bomb, Crown, Blocks, Rows3, AlignVerticalDistributeCenter, Hand, Palette, FileCode } from 'lucide-react';
 import ImageNext from 'next/image';
 import AdvancedLivePrices from '@/components/features/advanced-live-prices';
 import { Badge } from '@/components/ui/badge';
@@ -55,6 +56,9 @@ import ImageOptimizerClient from '@/components/client/image-optimizer-client';
 import SignatureGeneratorClient from '@/components/client/signature-generator-client';
 import MemoryGameClient from '@/components/client/memory-game-client';
 import SimonSaysClient from '@/components/client/simon-says-client';
+import ColorsTool from '@/components/features/colors-tool';
+import Base64Tool from '@/components/features/base64-tool';
+import PdfTools from '@/components/features/pdf-tools';
 
 const OthelloIcon = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-8 w-8">
@@ -189,6 +193,9 @@ const toolCategories = [
       { id: 'text-analyzer', title: 'تحلیلگر متن', icon: <FileText className="h-8 w-8 text-yellow-400" />, component: <TextAnalyzer /> },
       { id: 'distance-calculator', title: 'محاسبه مسافت', icon: <Map className="h-8 w-8 text-fuchsia-400" />, component: <DistanceCalculator /> },
       { id: 'signature-generator', title: 'تولید امضا دیجیتال', icon: <PenLine className="h-8 w-8 text-slate-400" />, component: <SignatureGeneratorClient /> },
+      { id: 'colors-tool', title: 'تبدیل رنگ‌ها', icon: <Palette className="h-8 w-8 text-pink-500" />, component: <ColorsTool /> },
+      { id: 'base64-tool', title: 'Base64 ↔ متن/فایل', icon: <FileCode className="h-8 w-8 text-emerald-500" />, component: <Base64Tool /> },
+      { id: 'pdf-tools', title: 'PDF و OCR (fa)', icon: <FileText className="h-8 w-8 text-indigo-500" />, component: <PdfTools /> },
       { id: 'ip-detector', title: 'تشخیص IP', icon: <LocateFixed className="h-8 w-8 text-sky-400" />, isWip: true },
       { id: 'post-tracker', title: 'پیگیری مرسوله پستی', icon: <Mailbox className="h-8 w-8 text-rose-400" />, isExternal: true, href: 'https://tracking.post.ir/'},
     ]
@@ -359,103 +366,7 @@ export default async function Home() {
            </div>
         </div>
       </main>
-      <footer className="text-center p-6 text-muted-foreground text-sm font-body space-y-4">
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            <div className="inline-flex items-center justify-center gap-2">
-                <Globe className="w-5 h-5" />
-                <span>
-                  توسعه داده شده توسط <a href="https://www.hosseintaheri.org/" target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground hover:underline">حسین طاهری</a>
-                </span>
-            </div>
-             <div className="inline-flex items-center justify-center gap-2">
-                <CalendarClock className="w-5 h-5" />
-                <span>
-                  آخرین بروزرسانی: شهریور 1404
-                </span>
-            </div>
-            
-            <Dialog>
-                <DialogTrigger asChild>
-                    <div className="inline-flex items-center justify-center gap-2 cursor-pointer hover:text-foreground">
-                        <FileText className="w-5 h-5" />
-                        <span>قوانین و مقررات</span>
-                    </div>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px] glass-effect">
-                    <DialogHeader>
-                        <DialogTitle className="text-2xl font-display">قوانین استفاده از «تبدیلا»</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4 text-right leading-relaxed max-h-[70vh] overflow-y-auto p-1 pr-3">
-                        <p>به «تبدیلا» خوش آمدید. استفاده از خدمات ما به منزله پذیرش قوانین زیر است:</p>
-                        <div className="space-y-3">
-                            <div>
-                                <h4 className="font-semibold text-foreground">۱. استفاده منصفانه</h4>
-                                <p>تمام ابزارها برای استفاده شخصی و قانونی طراحی شده‌اند. استفاده غیرقانونی، سوءاستفاده یا بارگذاری محتوای خلاف مقررات، مجاز نیست.</p>
-                            </div>
-                            <div>
-                                <h4 className="font-semibold text-foreground">۲. حقوق مالکیت فکری</h4>
-                                <p>محتوای موجود، شامل کدها، طراحی و داده‌ها، متعلق به «تبدیلا» بوده و هرگونه کپی‌برداری یا انتشار بدون اجازه کتبی، ممنوع است.</p>
-                            </div>
-                            <div>
-                                <h4 className="font-semibold text-foreground">۳. مسئولیت داده‌ها</h4>
-                                <p>اطلاعات و نتایج ارائه‌شده توسط ابزارها، جنبه اطلاع‌رسانی دارند. مسئولیت نهایی استفاده از این داده‌ها بر عهده کاربر است.</p>
-                            </div>
-                             <div>
-                                <h4 className="font-semibold text-foreground">۴. تغییرات قوانین</h4>
-                                <p>«تبدیلا» حق به‌روزرسانی یا اصلاح این قوانین را بدون اطلاع قبلی برای خود محفوظ می‌دارد. نسخه جدید قوانین بلافاصله پس از انتشار معتبر خواهد بود.</p>
-                            </div>
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
-
-            <Dialog>
-                <DialogTrigger asChild>
-                    <div className="inline-flex items-center justify-center gap-2 cursor-pointer hover:text-foreground">
-                        <Shield className="w-5 h-5" />
-                        <span>سیاست حفظ حریم خصوصی</span>
-                    </div>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px] glass-effect">
-                    <DialogHeader>
-                        <DialogTitle className="text-2xl font-display">🔒 سیاست حفظ حریم خصوصی</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4 text-right leading-relaxed max-h-[70vh] overflow-y-auto p-1 pr-3">
-                        <p>حفظ حریم خصوصی شما برای ما در «تبدیلا» اهمیت بالایی دارد. این سند نحوه جمع‌آوری و استفاده از اطلاعات شما را توضیح می‌دهد:</p>
-                        <div className="space-y-3">
-                            <div>
-                                <h4 className="font-semibold text-foreground">۱. اطلاعات جمع‌آوری شده</h4>
-                                <p>ما هیچ‌گونه اطلاعات شخصی شناسایی‌پذیر (مانند نام، ایمیل و...) را بدون اجازه مستقیم شما جمع‌آوری نمی‌کنیم. برای ابزارهایی مانند خلاصه‌ساز متن، فقط آدرس IP شما به صورت موقت برای جلوگیری از سوءاستفاده (Rate Limiting) ذخیره می‌شود.</p>
-                            </div>
-                            <div>
-                                <h4 className="font-semibold text-foreground">۲. استفاده از کوکی‌ها</h4>
-                                <p>«تبدیلا» از کوکی‌ها فقط برای ذخیره تنظیمات ظاهری شما (مانند تم روشن/تاریک) استفاده می‌کند و هیچ اطلاعات شخصی در آن‌ها ذخیره نمی‌شود.</p>
-                            </div>
-                            <div>
-                                <h4 className="font-semibold text-foreground">۳. امنیت داده‌ها</h4>
-                                <p>ارتباط شما با سرورهای «تبدیلا» از طریق پروتکل امن SSL انجام می‌شود. ما متعهد به حفاظت از داده‌های شما در برابر دسترسی غیرمجاز هستیم.</p>
-                            </div>
-                             <div>
-                                <h4 className="font-semibold text-foreground">۴. سرویس‌های شخص ثالث</h4>
-                                <p>برخی از قابلیت‌های سایت مانند مدل‌های هوش مصنوعی توسط سرویس‌دهندگان معتبر (مانند گوگل) ارائه می‌شوند. داده‌های ارسالی به این سرویس‌ها تابع قوانین حریم خصوصی آن‌ها خواهد بود.</p>
-                             </div>
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
-
-             <a href="mailto:feedback@tabdila.com?subject=انتقادات و پیشنهادات درباره تبدیلا" className="inline-flex items-center justify-center gap-2 cursor-pointer hover:text-foreground">
-                <MessageSquareHeart className="w-5 h-5" />
-                <span>انتقادات و پیشنهادات</span>
-            </a>
-
-        </div>
-        <div className="inline-flex items-center justify-center gap-2 pt-2 border-t border-border/50 w-full max-w-lg mx-auto mt-4">
-            <p>
-              تمام حقوق مادی و معنوی این وبسایت متعلق به مجموعه تبدیلا است.
-            </p>
-        </div>
-      </footer>
+      <FooterLegal />
       <ScrollToTop />
       <PWAInstallPrompt />
     </div>
